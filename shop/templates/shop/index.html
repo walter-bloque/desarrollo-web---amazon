@@ -1,0 +1,203 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Inicio - Amazon Bloque" %}{% endblock %}
+
+{% block content %}
+<div class="container">
+    
+    <!-- Hero Banner -->
+    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 60px 40px; border-radius: 12px; color: white; margin-bottom: 40px; text-align: center;">
+        <h1 style="font-size: 48px; margin-bottom: 20px; font-weight: 700;">{% trans "Bienvenido a Amazon Bloque" %}</h1>
+        <p style="font-size: 20px; opacity: 0.9;">{% trans "Encuentra los mejores productos con envío rápido" %}</p>
+    </div>
+
+    <!-- Categories Section -->
+    {% if categories %}
+    <h2 class="section-title">{% trans "Categorías Destacadas" %}</h2>
+    <div class="categories-grid">
+        {% for category in categories %}
+        <div class="category-card">
+            <h3>{{ category.name }}</h3>
+            <p style="color: #007185; margin-top: 10px; cursor: pointer;">{% trans "Ver productos" %} →</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Prime Products -->
+    {% if prime_products %}
+    <h2 class="section-title">
+        <i class="fas fa-bolt" style="color: #00a8e1;"></i> {% trans "Productos Prime" %}
+    </h2>
+    <div class="product-grid">
+        {% for product in prime_products %}
+        <a href="{% url 'shop:product_detail' product.slug %}" class="product-card" style="text-decoration: none; color: inherit;">
+            {% if product.discount_percentage > 0 %}
+            <div class="product-badge">-{{ product.discount_percentage }}%</div>
+            {% endif %}
+            
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}https://via.placeholder.com/250{% endif %}" 
+                 alt="{{ product.name }}" 
+                 class="product-image"
+                 onerror="this.src='https://via.placeholder.com/250?text=Producto'">
+            
+            {% if product.is_prime %}
+            <span class="prime-badge">
+                <i class="fas fa-bolt"></i> Prime
+            </span>
+            {% endif %}
+            
+            <h3 class="product-title">{{ product.name }}</h3>
+            
+            <div class="product-rating">
+                <span class="stars">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= product.rating|floatformat:"0" %}
+                            <i class="fas fa-star"></i>
+                        {% else %}
+                            <i class="far fa-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                </span>
+                <span class="reviews-count">({{ product.reviews_count }})</span>
+            </div>
+            
+            <div class="product-price">
+                ${{ product.price }}
+                {% if product.original_price %}
+                <span class="original-price">${{ product.original_price }}</span>
+                {% endif %}
+            </div>
+            
+            {% if product.stock > 0 %}
+            <div class="product-stock">{% trans "En stock" %}</div>
+            {% else %}
+            <div class="product-stock out-of-stock">{% trans "Agotado" %}</div>
+            {% endif %}
+        </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Discounted Products -->
+    {% if discounted_products %}
+    <h2 class="section-title">
+        <i class="fas fa-tag" style="color: #cc0c39;"></i> {% trans "Ofertas Especiales" %}
+    </h2>
+    <div class="product-grid">
+        {% for product in discounted_products %}
+        <a href="{% url 'shop:product_detail' product.slug %}" class="product-card" style="text-decoration: none; color: inherit;">
+            {% if product.discount_percentage > 0 %}
+            <div class="product-badge">-{{ product.discount_percentage }}%</div>
+            {% endif %}
+            
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}https://via.placeholder.com/250{% endif %}" 
+                 alt="{{ product.name }}" 
+                 class="product-image"
+                 onerror="this.src='https://via.placeholder.com/250?text=Producto'">
+            
+            {% if product.is_prime %}
+            <span class="prime-badge">
+                <i class="fas fa-bolt"></i> Prime
+            </span>
+            {% endif %}
+            
+            <h3 class="product-title">{{ product.name }}</h3>
+            
+            <div class="product-rating">
+                <span class="stars">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= product.rating|floatformat:"0" %}
+                            <i class="fas fa-star"></i>
+                        {% else %}
+                            <i class="far fa-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                </span>
+                <span class="reviews-count">({{ product.reviews_count }})</span>
+            </div>
+            
+            <div class="product-price">
+                ${{ product.price }}
+                {% if product.original_price %}
+                <span class="original-price">${{ product.original_price }}</span>
+                {% endif %}
+            </div>
+            
+            {% if product.stock > 0 %}
+            <div class="product-stock">{% trans "En stock" %}</div>
+            {% else %}
+            <div class="product-stock out-of-stock">{% trans "Agotado" %}</div>
+            {% endif %}
+        </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Featured Products -->
+    {% if featured_products %}
+    <h2 class="section-title">
+        <i class="fas fa-fire" style="color: #ff6b6b;"></i> {% trans "Productos Destacados" %}
+    </h2>
+    <div class="product-grid">
+        {% for product in featured_products %}
+        <a href="{% url 'shop:product_detail' product.slug %}" class="product-card" style="text-decoration: none; color: inherit;">
+            {% if product.discount_percentage > 0 %}
+            <div class="product-badge">-{{ product.discount_percentage }}%</div>
+            {% endif %}
+            
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}https://via.placeholder.com/250{% endif %}" 
+                 alt="{{ product.name }}" 
+                 class="product-image"
+                 onerror="this.src='https://via.placeholder.com/250?text=Producto'">
+            
+            {% if product.is_prime %}
+            <span class="prime-badge">
+                <i class="fas fa-bolt"></i> Prime
+            </span>
+            {% endif %}
+            
+            <h3 class="product-title">{{ product.name }}</h3>
+            
+            <div class="product-rating">
+                <span class="stars">
+                    {% for i in "12345" %}
+                        {% if forloop.counter <= product.rating|floatformat:"0" %}
+                            <i class="fas fa-star"></i>
+                        {% else %}
+                            <i class="far fa-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                </span>
+                <span class="reviews-count">({{ product.reviews_count }})</span>
+            </div>
+            
+            <div class="product-price">
+                ${{ product.price }}
+                {% if product.original_price %}
+                <span class="original-price">${{ product.original_price }}</span>
+                {% endif %}
+            </div>
+            
+            {% if product.stock > 0 %}
+            <div class="product-stock">{% trans "En stock" %}</div>
+            {% else %}
+            <div class="product-stock out-of-stock">{% trans "Agotado" %}</div>
+            {% endif %}
+        </a>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- No products message -->
+    {% if not featured_products and not prime_products and not discounted_products %}
+    <div style="text-align: center; padding: 60px 20px; background: white; border-radius: 12px; margin-top: 40px;">
+        <i class="fas fa-box-open" style="font-size: 80px; color: #ccc; margin-bottom: 20px;"></i>
+        <h2 style="font-size: 28px; color: #565959; margin-bottom: 10px;">{% trans "No hay productos disponibles" %}</h2>
+        <p style="font-size: 16px; color: #565959;">{% trans "Pronto agregaremos nuevos productos." %}</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
