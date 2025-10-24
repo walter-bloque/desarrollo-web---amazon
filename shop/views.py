@@ -1,14 +1,27 @@
 from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
 from .models import Product, Category
 
 
 def index(request):
     """Vista principal que muestra los productos destacados"""
-    featured_products = Product.objects.filter(available=True)[:12]
+    base_products = Product.objects.filter(available=True, stock__gt=0)
+    prioritized_products = base_products.filter(
+        Q(is_prime=True) | Q(discount_percentage__gt=0) | Q(rating__gte=4)
+    ).order_by('-is_prime', '-discount_percentage', '-rating', '-reviews_count', '-created_at')[:8]
+
+    featured_products = list(prioritized_products)
+    if len(featured_products) < 8:
+        remaining_slots = 8 - len(featured_products)
+        fallback_products = base_products.exclude(
+            id__in=[product.id for product in featured_products]
+        ).order_by('-created_at')[:remaining_slots]
+        featured_products.extend(list(fallback_products))
+
     prime_products = Product.objects.filter(available=True, is_prime=True)[:8]
     discounted_products = Product.objects.filter(available=True, discount_percentage__gt=0)[:8]
     categories = Category.objects.all()[:6]
-    
+
     context = {
         'featured_products': featured_products,
         'prime_products': prime_products,

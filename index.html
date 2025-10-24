@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejemplos de etiquetas HTML comunes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      background: #f4f4f4;
+      color: #222;
+    }
+
+    header,
+    nav,
+    main,
+    footer {
+      padding: 16px 24px;
+    }
+
+    header,
+    footer {
+      background: #0f1111;
+      color: #fff;
+    }
+
+    nav {
+      background: #232f3e;
+    }
+
+    nav a {
+      color: #fff;
+      margin-right: 12px;
+      text-decoration: none;
+    }
+
+    section {
+      background: #fff;
+      margin: 16px 0;
+      padding: 16px;
+      border-radius: 8px;
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+
+    form {
+      display: grid;
+      gap: 12px;
+      max-width: 320px;
+    }
+
+    input,
+    textarea,
+    select,
+    button {
+      padding: 8px;
+      font-size: 1rem;
+    }
+
+    .destacado {
+      color: #d35400;
+    }
+
+    .contenedor {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .contenedor > div {
+      flex: 1 1 240px;
+      background: #eef3fb;
+      padding: 12px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Ejemplos de etiquetas HTML comunes</h1>
+    <p>Este documento muestra cómo se ven y para qué se usan los elementos más habituales.</p>
+  </header>
+
+  <nav>
+    <a href="#titulos">Títulos</a>
+    <a href="#texto">Texto</a>
+    <a href="#listas">Listas</a>
+    <a href="#multimedia">Multimedia</a>
+    <a href="#tabla">Tablas</a>
+    <a href="#formulario">Formularios</a>
+    <a href="#estructura">Estructura</a>
+  </nav>
+
+  <main>
+    <section id="titulos">
+      <h2>Niveles de títulos</h2>
+      <h1>Encabezado principal &lt;h1&gt;</h1>
+      <h2>Encabezado secundario &lt;h2&gt;</h2>
+      <h3>Encabezado terciario &lt;h3&gt;</h3>
+      <h4>Encabezado &lt;h4&gt;</h4>
+      <h5>Encabezado &lt;h5&gt;</h5>
+      <h6>Encabezado &lt;h6&gt;</h6>
+    </section>
+
+    <section id="texto">
+      <h2>Texto y formato en línea</h2>
+      <p>
+        Un párrafo se escribe con <code>&lt;p&gt;</code>. Dentro puedes resaltar con
+        <strong>&lt;strong&gt;</strong>, enfatizar con <em>&lt;em&gt;</em>,
+        resaltar como marcador con <mark>&lt;mark&gt;</mark>, o citar código con <code>&lt;code&gt;</code>.
+      </p>
+      <blockquote>
+        Esta es una cita con <code>&lt;blockquote&gt;</code>, ideal para resaltar frases de otras personas.
+      </blockquote>
+      <p>
+        Usa <a href="https://developer.mozilla.org/es/docs/Web/HTML" target="_blank">enlaces &lt;a&gt;</a>
+        para conectar a otras páginas. El atributo <code>target="_blank"</code> abre en otra pestaña.
+      </p>
+      <p>
+        Los elementos en línea como <span class="destacado">&lt;span&gt;</span> permiten aplicar estilo sin romper el flujo del texto.
+      </p>
+    </section>
+
+    <section id="listas">
+      <h2>Listas</h2>
+      <div class="contenedor">
+        <div>
+          <h3>Lista no ordenada &lt;ul&gt;</h3>
+          <ul>
+            <li>Primer elemento</li>
+            <li>Segundo elemento</li>
+            <li>Tercer elemento</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Lista ordenada &lt;ol&gt;</h3>
+          <ol>
+            <li>Paso uno</li>
+            <li>Paso dos</li>
+            <li>Paso tres</li>
+          </ol>
+        </div>
+        <div>
+          <h3>Lista descriptiva &lt;dl&gt;</h3>
+          <dl>
+            <dt>HTML</dt>
+            <dd>Lenguaje para estructurar contenido.</dd>
+            <dt>CSS</dt>
+            <dd>Lenguaje para dar estilo.</dd>
+            <dt>JavaScript</dt>
+            <dd>Lenguaje para añadir interactividad.</dd>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section id="multimedia">
+      <h2>Imágenes y figuras</h2>
+      <figure>
+        <img src="https://content.nationalgeographic.com.es/medio/2023/02/15/sus-incisivos-afilados-siempre-crecen_002dad44_230215174745_2000x1333.jpg" alt="Ilustración de tecnología">
+        <figcaption>Un recurso visual se inserta con <code>&lt;img&gt;</code> y texto descriptivo usando <code>&lt;figcaption&gt;</code>.</figcaption>
+      </figure>
+    </section>
+
+    <section id="tabla">
+      <h2>Tablas</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Disponible</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Cámara</td>
+            <td>$250</td>
+            <td>Sí</td>
+          </tr>
+          <tr>
+            <td>Auriculares</td>
+            <td>$80</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td>Teclado</td>
+            <td>$120</td>
+            <td>Sí</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="formulario">
+      <h2>Formularios</h2>
+      <form action="https://google.com">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" placeholder="Tu nombre">
+
+        <label for="correo">Correo electrónico</label>
+        <input type="email" id="correo" placeholder="nombre@ejemplo.com">
+
+        <label for="mensaje">Mensaje</label>
+        <textarea id="mensaje" rows="4" placeholder="Escribe tu mensaje"></textarea>
+
+        <label for="opcion">Selecciona una opción</label>
+        <select id="opcion">
+          <option value="">Elige...</option>
+          <option value="html">HTML</option>
+          <option value="css">CSS</option>
+          <option value="js">JavaScript</option>
+        </select>
+
+        <button type="submit">Enviar</button>
+      </form>
+    </section>
+
+    <section id="estructura">
+      <h2>Estructura de página</h2>
+      <p>
+        Las etiquetas semánticas como <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>,
+        <code>&lt;section&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;aside&gt;</code> y <code>&lt;footer&gt;</code>
+        ayudan a describir el propósito de cada bloque.
+      </p>
+      <article>
+        <h3>Artículo destacado</h3>
+        <p>Un <code>&lt;article&gt;</code> agrupa contenido independiente, como una noticia o una entrada de blog.</p>
+      </article>
+      <aside>
+        <h3>Barra lateral</h3>
+        <p>Un <code>&lt;aside&gt;</code> contiene información complementaria, como enlaces o anuncios.</p>
+      </aside>
+      <div class="contenedor">
+        <div>Un <code>&lt;div&gt;</code> agrupa bloques y es útil para maquetar y aplicar estilos.</div>
+        <div>Combínalo con clases o identificadores para controlar su apariencia.</div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Ejemplos HTML. Todos los derechos reservados.</p>
+  </footer>
+</body>
+</html>
