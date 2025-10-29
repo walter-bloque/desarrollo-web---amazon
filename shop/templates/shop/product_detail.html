@@ -363,6 +363,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
+        line-clamp: 2;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
     }
@@ -418,10 +419,10 @@
     <div class="product-main">
         <!-- Imagen del Producto -->
         <div class="product-image-section">
-            <img src="{% if product.image %}{{ product.image.url }}{% else %}https://via.placeholder.com/500{% endif %}" 
+            <img src="{% if product.image %}{{ product.image.url }}{% else %}https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV1tm5WoqOIfFZKOr9CEdWuM6FPD_2gs9ZPg&s{% endif %}" 
                  alt="{{ product.name }}" 
                  class="product-main-image"
-                 onerror="this.src='https://via.placeholder.com/500?text={{ product.name }}'">
+                 onerror="this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTV1tm5WoqOIfFZKOr9CEdWuM6FPD_2gs9ZPg&s'">
         </div>
 
         <!-- Información del Producto -->
@@ -433,7 +434,7 @@
             <div class="product-detail-rating">
                 <span class="rating-stars">
                     {% for i in "12345" %}
-                        {% if forloop.counter <= product.rating|floatformat:"0" %}
+                        {% if forloop.counter <= product.rating_rounded %}
                             <i class="fas fa-star"></i>
                         {% else %}
                             <i class="far fa-star"></i>

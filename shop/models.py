@@ -1,3 +1,5 @@
+from decimal import Decimal, ROUND_HALF_UP
+
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
@@ -43,3 +45,12 @@ class Product(models.Model):
     @property
     def has_discount(self):
         return self.discount_percentage > 0
+
+    @property
+    def rating_rounded(self) -> int:
+        if self.rating is None:
+            return 0
+
+        value = Decimal(str(self.rating))
+        rounded = value.quantize(Decimal('1'), rounding=ROUND_HALF_UP)
+        return max(0, min(5, int(rounded)))

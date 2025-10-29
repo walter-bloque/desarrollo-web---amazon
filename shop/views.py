@@ -20,7 +20,7 @@ def index(request):
 
     prime_products = Product.objects.filter(available=True, is_prime=True)[:8]
     discounted_products = Product.objects.filter(available=True, discount_percentage__gt=0)[:8]
-    categories = Category.objects.all()[:6]
+    categories = Category.objects.all()[:5]
 
     context = {
         'featured_products': featured_products,
