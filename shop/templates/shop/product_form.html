@@ -1,0 +1,627 @@
+{% extends 'shop/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% if title %}{{ title }}{% else %}{% trans 'Formulario de Producto' %}{% endif %} - {{ block.super }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-container {
+        max-width: 1200px;
+        margin: 20px auto;
+        background: white;
+        border-radius: 12px;
+        padding: 40px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .form-header {
+        border-bottom: 2px solid #e7e7e7;
+        padding-bottom: 20px;
+        margin-bottom: 35px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .form-header::before {
+        content: "📦";
+        font-size: 32px;
+    }
+
+    .form-header h1 {
+        color: #0f1111;
+        font-size: 32px;
+        font-weight: 600;
+        margin: 0;
+        letter-spacing: -0.5px;
+    }
+
+    .form-section {
+        margin-bottom: 35px;
+        background: #fafafa;
+        padding: 25px;
+        border-radius: 8px;
+        border: 1px solid #e7e7e7;
+        transition: all 0.3s ease;
+    }
+
+    .form-section:hover {
+        background: #f5f5f5;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .section-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #0f1111;
+        margin-bottom: 25px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid #ffd814;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .section-title::before {
+        content: "▸";
+        color: #ffd814;
+        font-size: 24px;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #0f1111;
+        margin-bottom: 8px;
+        display: block;
+        font-size: 14px;
+        letter-spacing: 0.2px;
+    }
+
+    .form-label::after {
+        content: " *";
+        color: #cc0c39;
+        font-weight: 700;
+    }
+
+    .form-control, .form-select {
+        border-radius: 8px;
+        border: 2px solid #d5d9d9;
+        padding: 12px 15px;
+        width: 100%;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        background-color: white;
+    }
+
+    .form-control:hover, .form-select:hover {
+        border-color: #a6a6a6;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #007185;
+        box-shadow: 0 0 0 3px rgba(0, 113, 133, 0.15);
+        outline: none;
+        background-color: #f7fafa;
+    }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 120px;
+        font-family: inherit;
+    }
+
+    .input-group {
+        display: flex;
+        position: relative;
+    }
+
+    .input-group-text {
+        background: linear-gradient(135deg, #f0f2f2 0%, #e3e6e6 100%);
+        border: 2px solid #d5d9d9;
+        border-right: none;
+        border-radius: 8px 0 0 8px;
+        padding: 12px 15px;
+        font-weight: 600;
+        color: #0f1111;
+        display: flex;
+        align-items: center;
+    }
+
+    .input-group .form-control {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-left: none;
+    }
+
+    .input-group .form-control:focus {
+        border-left: 2px solid #007185;
+    }
+
+    .btn-outline-secondary {
+        background: white;
+        border: 2px solid #d5d9d9;
+        border-left: none;
+        border-radius: 0 8px 8px 0;
+        padding: 12px 20px;
+        color: #0f1111;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .btn-outline-secondary:hover {
+        background: #007185;
+        color: white;
+        border-color: #007185;
+    }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #ffd814 0%, #f7ca00 100%);
+        border: 2px solid #fcd200;
+        color: #0f1111;
+        padding: 14px 32px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(255, 216, 20, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .btn-submit:hover {
+        background: linear-gradient(135deg, #f7ca00 0%, #f0b800 100%);
+        border-color: #f2c200;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(255, 216, 20, 0.4);
+    }
+
+    .btn-submit:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(255, 216, 20, 0.3);
+    }
+
+    .btn-cancel {
+        background: white;
+        border: 2px solid #d5d9d9;
+        color: #0f1111;
+        padding: 14px 32px;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 16px;
+        margin-right: 15px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-cancel:hover {
+        background: #f0f2f2;
+        border-color: #a6a6a6;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-text {
+        font-size: 12px;
+        color: #565959;
+        margin-top: 6px;
+        display: block;
+        line-height: 1.5;
+        font-style: italic;
+    }
+
+    .form-text::before {
+        content: "ℹ️ ";
+        margin-right: 4px;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+        position: relative;
+    }
+
+    .form-check-input {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        cursor: pointer;
+        border: 2px solid #d5d9d9;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+    }
+
+    .form-check-input:checked {
+        background-color: #007185;
+        border-color: #007185;
+    }
+
+    .form-check-label {
+        font-weight: 500;
+        color: #0f1111;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .form-check {
+        padding: 15px;
+        background: white;
+        border-radius: 8px;
+        border: 2px solid #e7e7e7;
+        transition: all 0.3s ease;
+    }
+
+    .form-check:hover {
+        border-color: #007185;
+        background: #f7fafa;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding-top: 30px;
+        border-top: 2px solid #e7e7e7;
+        margin-top: 40px;
+        gap: 15px;
+    }
+
+    .preview-image {
+        max-width: 250px;
+        max-height: 250px;
+        margin-top: 15px;
+        border: 3px solid #e7e7e7;
+        border-radius: 12px;
+        padding: 8px;
+        background: white;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .preview-image:hover {
+        transform: scale(1.05);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .invalid-feedback {
+        color: #cc0c39;
+        font-size: 13px;
+        margin-top: 6px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .invalid-feedback::before {
+        content: "⚠️";
+    }
+
+    /* Estilos para el input de archivo */
+    input[type="file"] {
+        padding: 10px;
+        border: 2px dashed #d5d9d9;
+        border-radius: 8px;
+        background: #fafafa;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    input[type="file"]:hover {
+        border-color: #007185;
+        background: #f7fafa;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .form-container {
+            padding: 20px;
+            margin: 10px;
+        }
+
+        .form-header h1 {
+            font-size: 24px;
+        }
+
+        .section-title {
+            font-size: 18px;
+        }
+
+        .form-actions {
+            flex-direction: column-reverse;
+            gap: 10px;
+        }
+
+        .btn-submit, .btn-cancel {
+            width: 100%;
+            justify-content: center;
+            margin-right: 0;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-header">
+        <h1>{% if title %}{{ title }}{% else %}{% trans 'Agregar Producto' %}{% endif %}</h1>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+        {% csrf_token %}
+        
+        <div class="row">
+            <!-- Columna izquierda -->
+            <div class="col-md-6">
+                <div class="form-section">
+                    <h3 class="section-title">Información Básica</h3>
+                    <div class="form-group">
+                        <label for="{{ form.category.id_for_label }}" class="form-label">{{ form.category.label }}</label>
+                        {{ form.category }}
+                        {% if form.category.help_text %}
+                            <small class="form-text">{{ form.category.help_text }}</small>
+                        {% endif %}
+                        {% if form.category.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.category.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.name.id_for_label }}" class="form-label">{{ form.name.label }}</label>
+                        {{ form.name }}
+                        {% if form.name.help_text %}
+                            <small class="form-text">{{ form.name.help_text }}</small>
+                        {% endif %}
+                        {% if form.name.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.name.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.slug.id_for_label }}" class="form-label">{{ form.slug.label }}</label>
+                        <div class="input-group">
+                            {{ form.slug }}
+                            <button class="btn btn-outline-secondary" type="button" id="generate-slug">
+                                <i class="bi bi-arrow-repeat"></i> Generar
+                            </button>
+                        </div>
+                        {% if form.slug.help_text %}
+                            <small class="form-text">{{ form.slug.help_text }}</small>
+                        {% endif %}
+                        {% if form.slug.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.slug.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.description.id_for_label }}" class="form-label">{{ form.description.label }}</label>
+                        {{ form.description }}
+                        {% if form.description.help_text %}
+                            <small class="form-text">{{ form.description.help_text }}</small>
+                        {% endif %}
+                        {% if form.description.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.description.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.image.id_for_label }}" class="form-label">{{ form.image.label }}</label>
+                        {{ form.image }}
+                        {% if form.instance.image %}
+                            <div class="mt-2">
+                                <img src="{{ form.instance.image.url }}" class="preview-image" id="image-preview">
+                            </div>
+                        {% endif %}
+                        {% if form.image.help_text %}
+                            <small class="form-text">{{ form.image.help_text }}</small>
+                        {% endif %}
+                        {% if form.image.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.image.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna derecha -->
+            <div class="col-md-6">
+                <div class="form-section">
+                    <h3 class="section-title">Precios y Disponibilidad</h3>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.original_price.id_for_label }}" class="form-label">{{ form.original_price.label }}</label>
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            {{ form.original_price }}
+                        </div>
+                        {% if form.original_price.help_text %}
+                            <small class="form-text">{{ form.original_price.help_text }}</small>
+                        {% endif %}
+                        {% if form.original_price.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.original_price.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.discount_percentage.id_for_label }}" class="form-label">{{ form.discount_percentage.label }}</label>
+                        <div class="input-group">
+                            {{ form.discount_percentage }}
+                            <span class="input-group-text">%</span>
+                        </div>
+                        {% if form.discount_percentage.help_text %}
+                            <small class="form-text">{{ form.discount_percentage.help_text }}</small>
+                        {% endif %}
+                        {% if form.discount_percentage.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.discount_percentage.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                        <small class="form-text">{% trans "El precio final se calculará automáticamente basado en el precio original y el descuento" %}</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="{{ form.stock.id_for_label }}" class="form-label">{{ form.stock.label }}</label>
+                        {{ form.stock }}
+                        {% if form.stock.help_text %}
+                            <small class="form-text">{{ form.stock.help_text }}</small>
+                        {% endif %}
+                        {% if form.stock.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.stock.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="form-group form-check">
+                        {{ form.is_prime }}
+                        <label class="form-check-label" for="{{ form.is_prime.id_for_label }}">
+                            {{ form.is_prime.label }}
+                        </label>
+                        {% if form.is_prime.help_text %}
+                            <small class="form-text d-block">{{ form.is_prime.help_text }}</small>
+                        {% endif %}
+                        {% if form.is_prime.errors %}
+                            <div class="invalid-feedback d-block">
+                                {{ form.is_prime.errors|join:", " }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <a href="{% url 'shop:index' %}" class="btn-cancel">
+                <i class="bi bi-x-circle me-1"></i> {% trans 'Cancelar' %}
+            </a>
+            <button type="submit" class="btn-submit">
+                <i class="bi bi-save me-1"></i> {% trans 'Guardar Producto' %}
+            </button>
+        </div>
+    </form>
+</div>
+
+<script>
+// Mostrar vista previa de la imagen seleccionada
+document.addEventListener('DOMContentLoaded', function() {
+    const imageInput = document.querySelector('#id_image');
+    const imagePreview = document.querySelector('#image-preview');
+    
+    if (imageInput) {
+        imageInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    if (!imagePreview) {
+                        const previewDiv = document.createElement('div');
+                        previewDiv.className = 'mt-2';
+                        const img = document.createElement('img');
+                        img.id = 'image-preview';
+                        img.className = 'preview-image';
+                        previewDiv.appendChild(img);
+                        imageInput.parentNode.insertBefore(previewDiv, imageInput.nextSibling);
+                        document.getElementById('image-preview').src = e.target.result;
+                    } else {
+                        imagePreview.src = e.target.result;
+                    }
+                }
+                
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    }
+});
+</script>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Validación de formulario de Bootstrap
+(function () {
+    'use strict'
+    
+    // Obtener todos los formularios a los que queremos aplicar estilos de validación de Bootstrap personalizados
+    var forms = document.querySelectorAll('.needs-validation')
+    
+    // Bucle sobre ellos y evitar el envío
+    Array.prototype.slice.call(forms).forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault()
+                event.stopPropagation()
+            }
+            
+            form.classList.add('was-validated')
+        }, false)
+    })
+})();
+
+// Generar slug automáticamente desde el nombre
+function slugify(text) {
+    return text.toString().toLowerCase()
+        .replace(/[^\w\-]+/g, '-')     // Reemplazar caracteres no alfanuméricos por guiones
+        .replace(/\-\-+/g, '-')         // Reemplazar múltiples guiones por uno solo
+        .replace(/^\-+/, '')             // Eliminar guiones al inicio
+        .replace(/\-+$/, '');            // Eliminar guiones al final
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const nameField = document.getElementById('{{ form.name.id_for_label }}');
+    const slugField = document.getElementById('{{ form.slug.id_for_label }}');
+    const generateSlugBtn = document.getElementById('generate-slug');
+    
+    if (nameField && slugField && generateSlugBtn) {
+        // Generar slug cuando se hace clic en el botón
+        generateSlugBtn.addEventListener('click', function() {
+            if (nameField.value) {
+                slugField.value = slugify(nameField.value);
+                // Disparar el evento change para activar la validación
+                const event = new Event('change');
+                slugField.dispatchEvent(event);
+            }
+        });
+        
+        // Generar slug cuando se pierde el foco del campo de nombre, solo si el slug está vacío
+        nameField.addEventListener('blur', function() {
+            if (nameField.value && !slugField.value) {
+                slugField.value = slugify(nameField.value);
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

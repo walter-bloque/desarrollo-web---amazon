@@ -431,6 +431,7 @@
             
             <h1 class="product-detail-title">{{ product.name }}</h1>
 
+            {% if product.reviews_count >= 10 %}
             <div class="product-detail-rating">
                 <span class="rating-stars">
                     {% for i in "12345" %}
@@ -444,6 +445,13 @@
                 <span class="rating-number">{{ product.rating }}</span>
                 <span class="rating-count">{{ product.reviews_count }} {% trans "calificaciones" %}</span>
             </div>
+            {% else %}
+            <div class="product-detail-rating">
+                <span style="color: #565959; font-size: 14px;">
+                    <i class="fas fa-box"></i> {% trans "Producto nuevo - Sé el primero en calificarlo" %}
+                </span>
+            </div>
+            {% endif %}
 
             <div class="divider"></div>
 

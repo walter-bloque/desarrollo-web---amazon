@@ -1,0 +1,163 @@
+{% extends 'shop/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Mi perfil - Amazon Bloque" %}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .profile-container {
+        max-width: 900px;
+        margin: 30px auto;
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-header {
+        border-bottom: 1px solid #e7e7e7;
+        padding-bottom: 20px;
+        margin-bottom: 30px;
+    }
+
+    .profile-title {
+        font-size: 28px;
+        font-weight: 700;
+        color: #0f1111;
+        margin-bottom: 10px;
+    }
+
+    .profile-section {
+        margin-bottom: 30px;
+    }
+
+    .section-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #0f1111;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #e7e7e7;
+        padding-bottom: 10px;
+    }
+
+    .info-row {
+        display: flex;
+        padding: 10px 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .info-label {
+        font-weight: 700;
+        width: 200px;
+        color: #565959;
+    }
+
+    .info-value {
+        flex: 1;
+        color: #0f1111;
+    }
+
+    .btn-logout {
+        background: linear-gradient(to bottom, #f7dfa5, #f0c14b);
+        border: 1px solid #a88734;
+        border-radius: 3px;
+        padding: 10px 20px;
+        font-size: 14px;
+        cursor: pointer;
+        text-decoration: none;
+        color: #0f1111;
+        display: inline-block;
+        transition: background 0.2s;
+    }
+
+    .btn-logout:hover {
+        background: linear-gradient(to bottom, #f5d78e, #edb933);
+    }
+
+    .empty-value {
+        color: #767676;
+        font-style: italic;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="profile-container">
+        <div class="profile-header">
+            <h1 class="profile-title">{% trans "Mi perfil" %}</h1>
+        </div>
+
+        <div class="profile-section">
+            <h2 class="section-title">{% trans "Información personal" %}</h2>
+            
+            <div class="info-row">
+                <div class="info-label">{% trans "Nombre de usuario:" %}</div>
+                <div class="info-value">{{ user.username }}</div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">{% trans "Nombre completo:" %}</div>
+                <div class="info-value">
+                    {% if user.first_name or user.last_name %}
+                        {{ user.first_name }} {{ user.last_name }}
+                    {% else %}
+                        <span class="empty-value">{% trans "No especificado" %}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">{% trans "Correo electrónico:" %}</div>
+                <div class="info-value">
+                    {% if user.email %}
+                        {{ user.email }}
+                    {% else %}
+                        <span class="empty-value">{% trans "No especificado" %}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">{% trans "Número de teléfono:" %}</div>
+                <div class="info-value">
+                    {% if user.profile.phone_number %}
+                        {{ user.profile.phone_number }}
+                    {% else %}
+                        <span class="empty-value">{% trans "No especificado" %}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">{% trans "Dirección:" %}</div>
+                <div class="info-value">
+                    {% if user.profile.address %}
+                        {{ user.profile.address|linebreaks }}
+                    {% else %}
+                        <span class="empty-value">{% trans "No especificada" %}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-section">
+            <h2 class="section-title">{% trans "Cuenta" %}</h2>
+            
+            <div class="info-row">
+                <div class="info-label">{% trans "Fecha de registro:" %}</div>
+                <div class="info-value">{{ user.date_joined|date:"d/m/Y" }}</div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">{% trans "Último acceso:" %}</div>
+                <div class="info-value">{{ user.last_login|date:"d/m/Y H:i" }}</div>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <a href="{% url 'shop:logout' %}" class="btn-logout">{% trans "Cerrar sesión" %}</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

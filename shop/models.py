@@ -1,6 +1,9 @@
 from decimal import Decimal, ROUND_HALF_UP
 
 from django.db import models
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils.translation import gettext_lazy as _
 
 
@@ -54,3 +57,30 @@ class Product(models.Model):
         value = Decimal(str(self.rating))
         rounded = value.quantize(Decimal('1'), rounding=ROUND_HALF_UP)
         return max(0, min(5, int(rounded)))
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile', verbose_name=_('usuario'))
+    phone_number = models.CharField(_('número de teléfono'), max_length=20, blank=True)
+    address = models.TextField(_('dirección'), blank=True)
+    
+    class Meta:
+        verbose_name = _('perfil de usuario')
+        verbose_name_plural = _('perfiles de usuario')
+    
+    def __str__(self):
+        return f'{self.user.username} - {_("Perfil")}'
+
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    """Automatically create a UserProfile when a new User is created"""
+    if created:
+        UserProfile.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_profile(sender, instance, **kwargs):
+    """Save the UserProfile when the User is saved"""
+    if hasattr(instance, 'profile'):
+        instance.profile.save()

@@ -288,6 +288,44 @@
             margin: 0 auto;
         }
 
+        /* Messages */
+        .messages {
+            max-width: 1500px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+
+        .alert-info {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+
+        .alert-warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .header-top {
@@ -336,9 +374,21 @@
                         {% endfor %}
                     </select>
                 </form>
-                <a href="#" class="header-link">
-                    <i class="fas fa-user"></i> {% trans "Cuenta" %}
-                </a>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'shop:profile' %}" class="header-link">
+                        <i class="fas fa-user"></i> {% trans "Hola" %}, {{ user.first_name|default:user.username }}
+                    </a>
+                    <a href="{% url 'shop:logout' %}" class="header-link">
+                        <i class="fas fa-sign-out-alt"></i> {% trans "Salir" %}
+                    </a>
+                {% else %}
+                    <a href="{% url 'shop:login' %}" class="header-link">
+                        <i class="fas fa-user"></i> {% trans "Iniciar sesión" %}
+                    </a>
+                    <a href="{% url 'shop:register' %}" class="header-link">
+                        <i class="fas fa-user-plus"></i> {% trans "Registrarse" %}
+                    </a>
+                {% endif %}
                 <a href="#" class="header-link">
                     <i class="fas fa-shopping-cart"></i> {% trans "Carrito" %}
                 </a>
@@ -356,6 +406,17 @@
 
     <!-- Main Content -->
     <main>
+        <!-- Messages -->
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+        
         {% block content %}{% endblock %}
     </main>
 

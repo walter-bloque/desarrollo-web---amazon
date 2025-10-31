@@ -51,6 +51,7 @@
             
             <h3 class="product-title">{{ product.name }}</h3>
             
+            {% if product.reviews_count >= 10 %}
             <div class="product-rating">
                 <span class="stars">
                     {% for i in "12345" %}
@@ -63,6 +64,11 @@
                 </span>
                 <span class="reviews-count">({{ product.reviews_count }})</span>
             </div>
+            {% else %}
+            <div class="product-rating">
+                <span style="color: #565959; font-size: 14px;">{% trans "Producto nuevo" %}</span>
+            </div>
+            {% endif %}
             
             <div class="product-price">
                 ${{ product.price }}
@@ -106,6 +112,7 @@
             
             <h3 class="product-title">{{ product.name }}</h3>
             
+            {% if product.reviews_count >= 10 %}
             <div class="product-rating">
                 <span class="stars">
                     {% for i in "12345" %}
@@ -118,6 +125,11 @@
                 </span>
                 <span class="reviews-count">({{ product.reviews_count }})</span>
             </div>
+            {% else %}
+            <div class="product-rating">
+                <span style="color: #565959; font-size: 14px;">{% trans "Producto nuevo" %}</span>
+            </div>
+            {% endif %}
             
             <div class="product-price">
                 ${{ product.price }}
@@ -161,6 +173,7 @@
             
             <h3 class="product-title">{{ product.name }}</h3>
             
+            {% if product.reviews_count >= 10 %}
             <div class="product-rating">
                 <span class="stars">
                     {% for i in "12345" %}
@@ -173,6 +186,11 @@
                 </span>
                 <span class="reviews-count">({{ product.reviews_count }})</span>
             </div>
+            {% else %}
+            <div class="product-rating">
+                <span style="color: #565959; font-size: 14px;">{% trans "Producto nuevo" %}</span>
+            </div>
+            {% endif %}
             
             <div class="product-price">
                 ${{ product.price }}

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_recaptcha',
     'shop',
 ]
 
@@ -140,3 +141,15 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Authentication settings
+LOGIN_URL = 'shop:login'
+LOGIN_REDIRECT_URL = 'shop:index'
+LOGOUT_REDIRECT_URL = 'shop:index'
+
+# Google reCAPTCHA settings
+# For development, you can use test keys:
+RECAPTCHA_PUBLIC_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+RECAPTCHA_PRIVATE_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe'
+# For production, replace with your own keys from https://www.google.com/recaptcha/admin
+SILENCED_SYSTEM_CHECKS = ['django_recaptcha.recaptcha_test_key_error']
